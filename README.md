@@ -16,10 +16,10 @@ This repository provides a comprehensive guide for setting up an Ansible Control
 - SSH access between the controller and nodes.
 
 ## Here’s a detailed explanation and corrected step-by-step guide for setting up an Ansible Controller and configuring Ansible Nodes (Node 1 and Node 2).
-## Launch EC2 instances
+## A. Launch EC2 instances
 ![Screenshot from 2025-01-16 23-02-16](https://github.com/user-attachments/assets/d9458094-9eb2-45cc-a0f3-41338550f8c6)
 
-## Ansible Controller Setup
+## B. Ansible Controller Setup
    ## 1. Install vim
  
  ![Screenshot from 2025-01-16 23-06-15](https://github.com/user-attachments/assets/72481bce-2cf2-4b5f-bac1-1f1aa030d8c8)
@@ -103,7 +103,7 @@ This repository provides a comprehensive guide for setting up an Ansible Control
           ssh-copy-id ansible@<NODE_IP>
 ![Screenshot from 2025-01-17 00-15-16](https://github.com/user-attachments/assets/d2a277c5-a73a-40a4-942d-fc65c6fda71e)
           
-### Ansible Node 1 and Node 2 Setup
+## C. Ansible Node 1 and Node 2 Setup
 For each node, follow these steps:
  ##   1. Install vim
 
@@ -140,7 +140,8 @@ For each node, follow these steps:
 ##    5. Create Ansible User
    ◦ Add the ansible user & Set a password:
          
-![Screenshot from 2025-01-16 23-59-41](https://github.com/user-attachments/assets/9bda4b2e-4c24-48b2-8607-b8223975da8f)
+![Screenshot from 2025-01-17 00-17-51](https://github.com/user-attachments/assets/02c42842-8100-4ed9-ba0b-f7219b16e84d)
+
 
 
 ##    6. Configure Sudo Access
@@ -159,30 +160,34 @@ For each node, follow these steps:
 ##    7. Allow SSH Access from the Controller
 
 ◦ Accept the SSH key from the controller (executed on the controller):
-          bash
-          Copy code
-          ssh-copy-id ansible@<NODE_IP>
 
-### Finalizing Ansible Setup
-  ##  1. Edit the Inventory File on the Controller
-        ◦ Add the nodes to the inventory file:
-          bash
-          Copy code
-          vim /etc/ansible/hosts
-        ◦ Example inventory file:
-          ini
-          Copy code
-          [web]
-          node1 ansible_host=<NODE1_IP>
-          
-          [db]
-         node2 ansible_host=<NODE2_IP>
-          
+   ![Screenshot from 2025-01-17 00-19-20](https://github.com/user-attachments/assets/aa2ef1ca-cd29-433b-b329-427d31c8da88)
+      
+
+## D. Finalizing Ansible Setup
+##  1. Edit the Inventory File on the Controller
+◦ Add the nodes to the inventory file:
+
+![Screenshot from 2025-01-17 00-25-08](https://github.com/user-attachments/assets/27204ddb-46de-497a-8653-b7801ff4b11c)
+
+◦ Example inventory file:
+      
+![Screenshot from 2025-01-17 00-24-11](https://github.com/user-attachments/assets/8e8ad571-4de9-4e04-8962-4993d079ee2d)
+
+![Screenshot from 2025-01-17 00-27-26](https://github.com/user-attachments/assets/da41cce9-1b13-4892-acef-c77724902a20)
+
+
 ##   2. Test Ansible Connectivity
-        ◦ Run a ping command to test Ansible:
-          bash
-          Copy code
-          ansible all -m ping
-        ◦ You should see a success message from both nodes.
+◦ Run a  command to test Ansible:
+        
+![Screenshot from 2025-01-17 00-41-59](https://github.com/user-attachments/assets/a8bcc7ef-7fa8-4207-949e-1ee186c1e188)
+
+      
+◦ You should see a success create a directory from both nodes.
+
+![Screenshot from 2025-01-17 00-44-35](https://github.com/user-attachments/assets/2acfd984-d4e4-4863-83b7-e45121a6d66f)
+
+![Screenshot from 2025-01-17 00-43-42](https://github.com/user-attachments/assets/36c564e3-6dcb-46d8-bcec-c5df8d34a3b7)
+
 
 Successful responses from all nodes indicate a proper configuration.
