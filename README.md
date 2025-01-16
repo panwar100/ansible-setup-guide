@@ -10,125 +10,155 @@ This repository provides a comprehensive guide for setting up an Ansible Control
 - Configuration of passwordless sudo and SSH key-based authentication.
 - Testing connectivity and verifying Ansible setup with an inventory file.
 
-## Follow the steps provided in `ansible_setup_guide.md` to set up your Ansible environment.
-
 ## Prerequisites
 - A Linux-based system (e.g., RHEL 9.x or CentOS Stream 9).
 - Administrative (root) access to the systems.
 - SSH access between the controller and nodes.
 
-Here’s a detailed explanation and corrected step-by-step guide for setting up an Ansible Controller and configuring Ansible Nodes (Node 1 and Node 2).
+## Here’s a detailed explanation and corrected step-by-step guide for setting up an Ansible Controller and configuring Ansible Nodes (Node 1 and Node 2).
+## Launch EC2 instances
+![Screenshot from 2025-01-16 23-02-16](https://github.com/user-attachments/assets/d9458094-9eb2-45cc-a0f3-41338550f8c6)
 
-### Ansible Controller Setup
+## Ansible Controller Setup
    ## 1. Install vim
-       bash
-       Copy code
-       yum install vim -y
-        ◦ vim is used to edit configuration files.
-  ##  2. Edit SSH Server Configuration
-        ◦ Open the sshd_config file:
-          bash
-          Copy code
-          vim /etc/ssh/sshd_config
-        ◦ Update the following line to allow root login:
-          bash
-          Copy code
-          PermitRootLogin yes
-        ◦ Save and exit the file.
-  ##  3. Edit Cloud-Init SSH Configuration
-        ◦ Open the cloud-init SSH configuration:
-          bash
-          Copy code
-          vim /etc/ssh/sshd_config.d/50-cloud-init.conf
-        ◦ Add or ensure the following line exists:
-          bash
-          Copy code
-          PasswordAuthentication yes
-        ◦ Save and exit the file.
- ##   4. Create Ansible User
-        ◦ Add a new user:
-          bash
-          Copy code
-          useradd ansible
-        ◦ Set a password for the user:
-          bash
-          Copy code
-          passwd ansible
-##    5. Configure Sudo Access
-        ◦ Open the sudoers file:
-          bash
-          Copy code
-          vim /etc/sudoers
-        ◦ Add the following line to give the ansible user passwordless sudo access:
-          bash
-          Copy code
-          ansible ALL=(ALL) NOPASSWD: ALL
-        ◦ Save and exit the file.
-##    6. Restart SSH Service
-       bash
-       Copy code
-       systemctl restart sshd
-##    7. Generate SSH Keys
-        ◦ Generate SSH key pairs for the ansible user:
-          bash
-          Copy code
-          ssh-keygen
-        ◦ Copy the SSH key to the nodes (replace <NODE_IP> with the actual node IP):
-          bash
-          Copy code
-          ssh-copy-id ansible@<NODE_IP>
-##    8. Install Required Packages
-        ◦ Install necessary repositories:
-          bash
-          Copy code
-          dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm
-        ◦ Install ansible-core:
-          bash
-          Copy code
-          yum install ansible-core -y
+ 
+ ![Screenshot from 2025-01-16 23-06-15](https://github.com/user-attachments/assets/72481bce-2cf2-4b5f-bac1-1f1aa030d8c8)
+       
+   ◦ vim is used to edit configuration files.
 
+  ##  2. Edit SSH Server Configuration
+   ◦ Open the sshd_config file:
+          
+![Screenshot from 2025-01-16 23-09-13](https://github.com/user-attachments/assets/a94c5ffe-d915-41fd-a992-19a01e1867ea)
+
+ ◦ Update the following line to allow root login:
+ 
+          PermitRootLogin yes
+   ◦ Save and exit the file.
+ 
+  ##  3. Edit Cloud-Init SSH Configuration
+ ◦ Open the cloud-init SSH configuration:
+          
+   ![Screenshot from 2025-01-16 23-10-42](https://github.com/user-attachments/assets/6636e657-6f66-4d7c-a670-4685a78ff172)
+
+ ◦ Add or ensure the following line exists:
+ 
+          PasswordAuthentication yes
+ ◦ Save and exit the file.
+
+ ##   4. Create Ansible User
+   ◦ Add a new user & Set a password :
+   
+![Screenshot from 2025-01-16 23-14-16](https://github.com/user-attachments/assets/a880490f-903c-4ee2-9be3-e51aa2cdd5c6)
+
+
+##    5. Configure Sudo Access
+   ◦ Open the sudoers file:
+         
+![Screenshot from 2025-01-16 23-19-26](https://github.com/user-attachments/assets/103529b8-c4b1-4b34-b0d3-e3a658ba9890)
+
+  ◦ Add the following line to give the ansible user passwordless sudo access:
+         
+       ansible ALL=(ALL) NOPASSWD:ALL
+ ![Screenshot from 2025-01-16 23-18-45](https://github.com/user-attachments/assets/a2663f33-1f22-459e-9a4b-bfd22803c0d6)
+
+ ◦ Save and exit the file.
+
+##    6. Restart SSH Service
+
+![Screenshot from 2025-01-16 23-20-19](https://github.com/user-attachments/assets/0fed308a-8b91-4e96-b40c-859947a571ab)
+
+
+
+##    7. Install Required Packages
+       
+ ◦ Register the subscribe-manager of redhat :
+
+   ![Screenshot from 2025-01-16 23-31-50](https://github.com/user-attachments/assets/0a3225a9-1fce-446b-b34d-a6598b0df58a)
+
+        
+ ◦ Install necessary repositories:
+      
+![Screenshot from 2025-01-16 23-34-05](https://github.com/user-attachments/assets/a51a253e-c8b5-43f6-aba7-bf5c821b9799)
+
+![Screenshot from 2025-01-16 23-35-31](https://github.com/user-attachments/assets/7c40de2a-b2a8-480e-9202-815e5399a8c1)
+
+![Screenshot from 2025-01-16 23-36-33](https://github.com/user-attachments/assets/1b56e3ba-3370-49a2-b127-4408a801ba2e)
+         
+◦ Install ansible-core:
+   
+![Screenshot from 2025-01-16 23-38-51](https://github.com/user-attachments/assets/f8c4e173-8d55-45b7-96cd-9213a73bb924)
+
+      
+
+##    8. Generate SSH Keys
+  ◦ Generate SSH key pairs for the ansible user:
+
+![Screenshot from 2025-01-16 23-41-58](https://github.com/user-attachments/assets/3bc2a4f2-f8ad-48d7-be43-ae0599a8ff85)
+
+          
+   ◦ Copy the SSH key to the nodes after compelete Ansible Node 1 and Node 2 Setup(replace <NODE_IP> with 
+     the actual node IP):
+         
+          ssh-copy-id ansible@<NODE_IP>
+![Screenshot from 2025-01-17 00-15-16](https://github.com/user-attachments/assets/d2a277c5-a73a-40a4-942d-fc65c6fda71e)
+          
 ### Ansible Node 1 and Node 2 Setup
 For each node, follow these steps:
  ##   1. Install vim
-       bash
-       Copy code
-       yum install vim -y
+
+![Screenshot from 2025-01-16 23-48-59](https://github.com/user-attachments/assets/d18a1143-00f4-429d-9708-5693b8911359)
+
+
 ##    2. Edit SSH Server Configuration
-        ◦ Open the sshd_config file:
-          bash
-          Copy code
-          vim /etc/ssh/sshd_config
-        ◦ Ensure the following settings:
-          bash
-          Copy code
+  ◦ Open the sshd_config file:
+
+![Screenshot from 2025-01-16 23-51-10](https://github.com/user-attachments/assets/3f49dfb7-a552-4278-b35d-e32e6fb74d95)
+      
+  ◦ Ensure the following settings:
+         
           PermitRootLogin yes
           PasswordAuthentication yes
-        ◦ Save and exit the file.
-##    3. Restart SSH Service
-       bash
-       Copy code
-       systemctl restart sshd
-##    4. Create Ansible User
-        ◦ Add the ansible user:
-          bash
-          Copy code
-          useradd ansible
-        ◦ Set a password for the ansible user:
-          bash
-          Copy code
-          passwd ansible
-##    5. Configure Sudo Access
-        ◦ Open the sudoers file:
-          bash
-          Copy code
-          vim /etc/sudoers
-        ◦ Add the following line:
-          bash
-          Copy code
-          ansible ALL=(ALL) NOPASSWD: ALL
-        ◦ Save and exit the file.
-##    6. Allow SSH Access from the Controller
-        ◦ Accept the SSH key from the controller (executed on the controller):
+        
+   ◦ Save and exit the file.
+
+##   3. Edit Cloud-Init SSH Configuration
+ ◦ Open the cloud-init SSH configuration:
+          
+![Screenshot from 2025-01-16 23-57-31](https://github.com/user-attachments/assets/b295c12d-3374-4994-80cd-0d7c74d6cefa)
+
+ ◦ Add or ensure the following line exists:
+                                          
+     PasswordAuthentication yes
+ ◦ Save and exit the file.  
+
+##    4. Restart SSH Service
+
+![Screenshot from 2025-01-16 23-58-15](https://github.com/user-attachments/assets/f0e0f744-fac9-46ef-8db9-3912235a75a3)
+
+
+##    5. Create Ansible User
+   ◦ Add the ansible user & Set a password:
+         
+![Screenshot from 2025-01-16 23-59-41](https://github.com/user-attachments/assets/9bda4b2e-4c24-48b2-8607-b8223975da8f)
+
+
+##    6. Configure Sudo Access
+
+◦ Open the sudoers file:
+
+![Screenshot from 2025-01-17 00-02-56](https://github.com/user-attachments/assets/ebc98233-499f-4414-b401-5d3c41e54f60)
+         
+
+◦ Add the following line:
+
+![Screenshot from 2025-01-17 00-01-55](https://github.com/user-attachments/assets/3c622c59-ef32-48fb-a105-9b0ea118d92f)
+
+◦ Save and exit the file.
+
+##    7. Allow SSH Access from the Controller
+
+◦ Accept the SSH key from the controller (executed on the controller):
           bash
           Copy code
           ssh-copy-id ansible@<NODE_IP>
